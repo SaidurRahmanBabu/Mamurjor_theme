@@ -32,3 +32,10 @@
 		return "This Post Is Locked";
 	}
 	add_filter("protected_title_format", "mamurjor_protected_post_title");
+
+	//remove default post/body class
+	function mj_post_class($classes){
+		unset($classes[array_search("no-customize-support", $classes)]);
+		return $classes;
+	}
+	add_filter( "body_class", 'mj_post_class' );

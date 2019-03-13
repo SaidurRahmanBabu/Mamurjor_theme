@@ -40,7 +40,7 @@ a:hover {
   width: 100%;
 }
 .main-menu ul li a {
-  color: #e0442b;
+  color: ;
   font-weight: 700;
   display: block;
   padding: 10px;
@@ -116,4 +116,19 @@ a:hover {
   line-height: 30px;
   box-shadow:-8px 4px 6px 1px #5f89a0;
   background-color: #233e5a;
+}
+
+.pagination{
+	display: unset;
+}
+/*tag page css*/
+.single-tag-content {
+  display: flex;
+  width: 100%;
+  margin-bottom: 20px;
+}
+.single-tag-content img {
+  height: 60px;
+  width: 60px;
+  margin-right: 10px;
 }

@@ -28,6 +28,9 @@
 		//theme images
 		add_theme_support('post-thumbnails');
 
+		//post formats
+		add_theme_support('post-formats', array('image', 'video', 'gallery', 'quote' ));
+
 		//Theme menus
 		register_nav_menus(array(
 			'main_menu' => __('main menu', 'mamurjor')
