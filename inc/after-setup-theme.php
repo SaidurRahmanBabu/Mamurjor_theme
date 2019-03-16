@@ -4,6 +4,9 @@
 		//theme title and tag
 		add_theme_support('title-tag');
 
+		//custom search bar
+		add_theme_support( 'html5', array( 'search-form' ) );
+
 		//custom header bg and Text color
 		$mj_header_color = array(
 			'header-text' => true,
@@ -40,7 +43,7 @@
 
 	//header image customize
 	function mj_header_image(){
-		if(is_front_page()){
+		if(is_front_page() || is_single() ){
 			if(current_theme_supports( 'custom-header' )){
 				?>
 				<style>

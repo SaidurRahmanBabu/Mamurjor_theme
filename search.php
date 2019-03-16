@@ -2,13 +2,15 @@
 	<section class="our-blog section-padding">
 		<div class="container">
 			<div class="row">
-				<div class="col-md-12 text-center">
-					<h2 class="section-header">Blog Post</h2>
-				</div>
-			</div>
-			<div class="row">
-
 				<div class="col-md-9">
+					<?php
+						if(!have_posts()){
+							_e("no result found!", "mamurjor");
+						}else{
+							$allsearch = new WP_Query("s=$s&showposts=-1");
+							echo 'Total <b>'.$allsearch ->found_posts.'</b> results found.';
+						}
+					?>
 
 				<?php while(have_posts()) : the_post(); ?>
 
@@ -18,8 +20,9 @@
 							<h3><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h3>
 							<!-- post-details -->
 							<p>Posted by 
-								<?php the_author_posts_link(); ?>
-
+								<a href="<?php the_permalink(); ?>">
+									<?php the_author(); ?>										
+								</a>
 								<a href="<?php the_permalink(); ?>">
 									<?php the_date('F d, y '); ?>
 								</a> . 

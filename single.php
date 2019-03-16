@@ -22,9 +22,24 @@
 					<div class="blog-postwrapper">
 						<div class="single-post-content">
 							<h3><?php the_title(); ?></h3>
+							<!-- post-details -->
+							<p>Posted by 
+								<?php the_author_posts_link(); ?>
+
+								<a href="<?php the_permalink(); ?>">
+									<?php the_date('F d, Y '); ?>
+								</a> . 
+								<?php comments_popup_link('No Comments', '1 Comment', '% Comments', 'mj-comments', 'Comments Disabled'); ?>
+								<?php
+									if(has_tag()){
+										echo ' . Tags: ';
+										the_tags('<b>', ', ', '</b>');
+									}
+								?>
+							</p>
 							
 							<!-- post-feature-image -->
-								<?php the_post_thumbnail(); ?>
+							<?php the_post_thumbnail(); ?>
 								<!-- pagination for large post -->
 							<?php
 								the_content();
@@ -35,9 +50,10 @@
 									'previouspagelink' => '<'
 
 								));
-								next_post_link();
+								if( get_next_post_link() ){next_post_link( '<b>Next Post: </b> %link' );}
 								echo "<br>";
-								previous_post_link();
+								previous_post_link('<b>Previous Post: </b> %link');
+								echo "<br><br>";
 							?>
 
 							<!-- post-author -->
@@ -45,7 +61,8 @@
 								<?php echo get_avatar(get_the_author_meta('id')); ?>
 								<div class="author-bio">
 									<h4>
-										<?php echo get_the_author_meta('display_name'); ?>
+										Author: 
+										<?php echo the_author_posts_link(get_the_author_meta('display_name')); ?>
 									</h4>
 									<p>
 										<?php echo get_the_author_meta('description'); ?>

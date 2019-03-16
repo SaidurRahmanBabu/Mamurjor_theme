@@ -34,6 +34,19 @@
 						</nav>
 					</div>
 				</div>
+				
+				<!-- search form -->
+				<div class="row">
+					<div class="col-md-12">
+						<?php
+							if(is_search()){
+								_e("Search Result For ", "mamurjor");
+								echo '<b>' . get_search_query() . '</b>';
+							}
+						?>
+						<?php get_search_form(); ?>
+					</div>
+				</div>
 			</div>
 		</div>
 	</section>

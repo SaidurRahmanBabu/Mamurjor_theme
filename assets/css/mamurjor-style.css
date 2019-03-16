@@ -13,7 +13,7 @@ ul{
 	padding: 0;
 }
 a {
-	text-transform: uppercase;
+	color: #ea7777;
 	transition: linear .3s;
 }
 a:hover {
@@ -40,7 +40,8 @@ a:hover {
   width: 100%;
 }
 .main-menu ul li a {
-  color: ;
+  color: ##ea7777;
+  text-transform: uppercase;
   font-weight: 700;
   display: block;
   padding: 10px;
