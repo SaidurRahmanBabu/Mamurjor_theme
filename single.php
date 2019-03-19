@@ -21,6 +21,39 @@
 
 					<div class="blog-postwrapper">
 						<div class="single-post-content">
+
+							<div class="acf-post">
+								From meta acf: <?php the_field('course'); ?>
+								<?php 
+								echo "</br>";
+									$custom_image =  get_field('image');
+
+									$custom_image_url = wp_get_attachment_image_src( $custom_image, 'thumbnail');
+								?>
+								<img src="<?php echo esc_url($custom_image_url[0]); ?>" alt="">
+							</div>
+
+							<!-- downloadable file -->
+							<?php
+								$file = get_field('attachment');
+
+								if($file){
+
+									$file_url = wp_get_attachment_url( $file );
+
+									$file_thumb = get_field('thumbnail', $file);
+
+									if($file_thumb){
+
+										$file_thumb_details = wp_get_attachment_image_src( $file_thumb);
+
+										echo "<a target='_blank' href='{$file_url}'>
+											<img src='".esc_url($file_thumb_details[0])."' alt=''>
+										</a>";
+									}
+								}
+							?>
+
 							<h3><?php the_title(); ?></h3>
 							<!-- post-details -->
 							<p>Posted by 
@@ -77,6 +110,38 @@
 								}
 							?>
 
+						</div>
+
+						<div>
+							<?php 
+								the_field('content');
+							 ?>
+
+							 <br>
+							 <?php  
+							 	$thumnail = get_field('mamurjor_image');
+							 	$thumnail_url = wp_get_attachment_image_src( $thumnail, 'thumbnail' );
+							 ?>
+							 <img src="<?php echo esc_url($thumnail_url[0]); ?>" alt=""> <br><br>
+
+							 <?php
+							 	$file = get_field('mamurjor_pdf');
+
+							 	if($file){
+							 		$mamurjor_file_url = wp_get_attachment_url($file);
+
+							 		$mamurjor_file_thumb = get_field('mamurjor_thumb', $file);
+
+							 		if($mamurjor_file_thumb){
+
+							 			$mamurjor_file_thumb_src = wp_get_attachment_image_src( $mamurjor_file_thumb);
+
+							 			echo "<a href='{$mamurjor_file_url}'>
+							 			<img src='". esc_url($mamurjor_file_thumb_src[0] )."'/>
+							 			</a>";
+							 		}
+							 	}
+							 ?>
 						</div>
 					</div>
 
