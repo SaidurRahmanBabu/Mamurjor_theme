@@ -70,6 +70,16 @@ function mamurjor_register_required_plugins() {
 			'slug'        => 'advanced-custom-fields',
 			'is_callable' => 'wpseo_init',
 		),
+		array(
+			'name'        => 'CMB2',
+			'slug'        => 'cmb2',
+			'is_callable' => 'wpseo_init',
+		),
+		array(
+			'name'        => 'Cmb2 Conditionals',
+			'slug'        => 'cmb2-conditionals',
+			'source' => 'https://github.com/jcchavezs/cmb2-conditionals/archive/master.zip',
+		),
 
 	);
 

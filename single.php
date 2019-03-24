@@ -22,37 +22,50 @@
 					<div class="blog-postwrapper">
 						<div class="single-post-content">
 
-							<div class="acf-post">
-								From meta acf: <?php the_field('course'); ?>
-								<?php 
-								echo "</br>";
-									$custom_image =  get_field('image');
-
-									$custom_image_url = wp_get_attachment_image_src( $custom_image, 'thumbnail');
+							<!-- posted from cmb2 -->
+							<div class="cmb-thumb">
+								<?php
+										$thumbn = get_post_meta( get_the_ID(), '_mamurjor_thumb_id', true );
+										$thumb_url = wp_get_attachment_image_src($thumbn);
 								?>
-								<img src="<?php echo esc_url($custom_image_url[0]); ?>" alt="">
+								<img src="<?php echo esc_url($thumb_url[0]); ?>" alt="">
 							</div>
+							<div class="cmb2-b">
+								<?php
+									$mamurjor_device = get_post_meta(get_the_ID(), '_mamurjor_device_name', true);
 
-							<!-- downloadable file -->
-							<?php
-								$file = get_field('attachment');
+									$mamurjor_processor = get_post_meta(get_the_ID(), '_mamurjor_processor', true);
 
-								if($file){
+									$mamurjor_manufacture_date = get_post_meta(get_the_ID(), '_mamurjor_manufacture_date', true);
 
-									$file_url = wp_get_attachment_url( $file );
+									$mamurjor_warranty = get_post_meta(get_the_ID(), '_mamurjor_warranty', true);
 
-									$file_thumb = get_field('thumbnail', $file);
-
-									if($file_thumb){
-
-										$file_thumb_details = wp_get_attachment_image_src( $file_thumb);
-
-										echo "<a target='_blank' href='{$file_url}'>
-											<img src='".esc_url($file_thumb_details[0])."' alt=''>
-										</a>";
-									}
-								}
-							?>
+									$mamurjor_warranty_info = get_post_meta(get_the_ID(), '_mamurjor_warranty_info', true);
+								?>
+								
+							<?php if(class_exists('CMB2')): ?>
+								<strong>
+									Parts Name: 
+									<?php echo esc_html( $mamurjor_device ); ?>
+								</strong><br>
+								<strong>
+									Processor Name: 
+									<?php echo esc_html( $mamurjor_processor ); ?>
+								</strong><br>
+								<strong>
+									Manufacture Date: 
+									<?php echo esc_html( $mamurjor_manufacture_date ); ?>
+								</strong><br>
+								<strong>
+									Warranty:  
+									<?php
+										if($mamurjor_warranty){
+											echo esc_html( $mamurjor_warranty_info );
+										}
+									?>
+								</strong>
+							<?php endif; ?>
+							</div>
 
 							<h3><?php the_title(); ?></h3>
 							<!-- post-details -->
@@ -89,6 +102,46 @@
 								echo "<br><br>";
 							?>
 
+				<!-- advanced custom field -->
+
+							<div class="advance_custom_field">
+								<h2>AFC POST</h2>
+								<?php if(function_exists('the_field')):?>
+		
+									<p><?php the_field('mamurjor_text'); ?></p>
+
+									<p>
+										<!-- show image -->
+										<?php
+											$mj_post_img = get_field('mamurjor_image');
+											if($mj_post_img){
+												$mjpost_img_src = wp_get_attachment_image_src($mj_post_img);
+
+												echo "AFC image <br>" . "<img src='".esc_url($mjpost_img_src[0])."' />";
+											}
+										?>
+									</p>
+
+									<p>
+										<!-- download file -->
+										<?php
+											$file = get_field('mamurjor_attachment');
+											if($file){
+												$file_url = wp_get_attachment_url($file);
+												$file_thumb = get_field('mamurjor_thumb', $file);
+
+												if($file_thumb){
+													$file_thumb_src = wp_get_attachment_image_src($file_thumb);
+
+													echo 'Download: <br>' . '<a download href="'.$file_url.'"><img src="'.esc_url($file_thumb_src[0]).'" /></a>';
+												}
+											}
+										?>
+									</p>
+								<?php endif; ?>
+							</div>
+				<!-- advanced custom field ends-->
+
 							<!-- post-author -->
 							<div class="author-details">
 								<?php echo get_avatar(get_the_author_meta('id')); ?>
@@ -101,7 +154,43 @@
 										<?php echo get_the_author_meta('description'); ?>
 									</p>
 								</div>
-							</div>
+								<div class="author-social-link">
+									<!-- afc-author-social -->
+									<?php if(function_exists('the_field')): ?>
+										<?php
+											$fb_icon = get_field('facebook');
+											$twit_icon = get_field('twitter');
+										?>
+										<h3>Get Connected: 
+										<a href="<?php echo esc_url($fb_icon) ?>">
+											<i class="fa fa-facebook"></i>
+										</a>
+										<a href="<?php echo esc_url($twit_icon) ?>">
+											<i class="fa fa-twitter"></i>
+										</a></h3> 
+									<?php endif; ?>
+								</div>
+
+				<!-- related post afc with wp_query -->
+								<div class="related-post">
+									<?php if(function_exists('the_field')): ?>
+										<h2><?php _e("Related Posts", "mamurjor"); ?></h2>
+										<?php
+											$related_post = get_field('related_post');
+
+											$mamurjor_rel_post = new WP_Query(array(
+												'post__in' 	=> $related_post,
+												'orderby' 	=> 'post__in'
+											));
+										?>
+										<?php while($mamurjor_rel_post->have_posts()) : $mamurjor_rel_post->the_post(); ?>
+
+											<a href="<?php the_permalink(); ?>"><h4><?php the_title(); ?></h4></a>
+
+										<?php endwhile; ?>
+										<?php wp_reset_query(); ?>
+									<?php endif; ?>
+								</div>
 
 							<!-- comments-field -->
 							<?php
@@ -112,43 +201,13 @@
 
 						</div>
 
-						<div>
-							<?php 
-								the_field('content');
-							 ?>
-
-							 <br>
-							 <?php  
-							 	$thumnail = get_field('mamurjor_image');
-							 	$thumnail_url = wp_get_attachment_image_src( $thumnail, 'thumbnail' );
-							 ?>
-							 <img src="<?php echo esc_url($thumnail_url[0]); ?>" alt=""> <br><br>
-
-							 <?php
-							 	$file = get_field('mamurjor_pdf');
-
-							 	if($file){
-							 		$mamurjor_file_url = wp_get_attachment_url($file);
-
-							 		$mamurjor_file_thumb = get_field('mamurjor_thumb', $file);
-
-							 		if($mamurjor_file_thumb){
-
-							 			$mamurjor_file_thumb_src = wp_get_attachment_image_src( $mamurjor_file_thumb);
-
-							 			echo "<a href='{$mamurjor_file_url}'>
-							 			<img src='". esc_url($mamurjor_file_thumb_src[0] )."'/>
-							 			</a>";
-							 		}
-							 	}
-							 ?>
-						</div>
+						
 					</div>
 
 				<?php endwhile; ?>
 
 				</div>
-
+			</div>
 			<?php if(is_active_sidebar('mj-right-sidebar')){ ?>
 				<div class="col-md-4">
 					<div class="right-sidebar">
